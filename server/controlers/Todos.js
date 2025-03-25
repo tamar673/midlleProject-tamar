@@ -35,10 +35,10 @@ const creatTodos=('/',async(req,res)=>{
         })
 
         const deleteTodos=('/',async (req, res) => {
-            const { _id } = req.body
-            if(!_id){
+            const { id } = req.params
+            if(!id){
                 return res.status(400).json({messege:'insert _id'})}
-            const todo = await Todos.findById(_id).exec()
+            const todo = await Todos.findById(id).exec()
             if (!todo) {
             return res.status(400).json({ message: 'todo not found' })
             }

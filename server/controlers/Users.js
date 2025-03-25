@@ -45,13 +45,18 @@ const updateUser=('/',async(req,res)=>{
     res.json(`'${updatedUser.name}' updated`)
 })
 
+
 const deleteUser=('/',async(req,res)=>{
-const {_id}=req.body
-const user=await Users.findById(_id).exec()
-if(!user)
-    return res.status(400).json({message:"User does not exist"})
-const result = await Users.deleteOne(user)
-res.json('deleted!')
+    console.log("req",req);
+    const { id } = req.params
+    const user=await Users.findById(id).exec()
+    if(!id){
+        return res.status(401).json({ message: 'insert id' })
+    }
+    if(!user){
+        return res.status(400).json({message:"User does not exist"})}
+    const result = await Users.deleteOne(user)
+    res.json(`'${result.name}' deleted`)
 })
 
 module.exports={creatUsers,getAllUsers,updateUser,deleteUser}

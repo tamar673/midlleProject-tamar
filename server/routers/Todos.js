@@ -5,6 +5,6 @@ const todosControler=require("../controlers/Todos")
 router.post("/",todosControler.creatTodos)
 router.get("/",todosControler.getAllTodos)
 router.put("/",todosControler.updateTodos)
-router.delete("/",todosControler.deleteTodos)
+router.delete("/:id",todosControler.deleteTodos)
 
 module.exports=router
