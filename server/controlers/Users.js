@@ -16,9 +16,6 @@ const creatUsers=('/',async(req,res)=>{
 
     const getAllUsers=('/',async (req, res) => {
         const allusers = await Users.find().lean()
-        if (!allusers?.length) {
-        return res.status(400).json({ message: 'No users found' })
-        }
         res.json(allusers)
         })
         

@@ -5,6 +5,6 @@ const photosControler=require("../controlers/Photos")
 router.post("/",photosControler.creatPhoto)
 router.get("/",photosControler.getAllPhotos)
 router.put("/",photosControler.updatePhoto)
-router.delete("/",photosControler.deletePhoto)
+router.delete("/:id",photosControler.deletePhoto)
 
 module.exports=router

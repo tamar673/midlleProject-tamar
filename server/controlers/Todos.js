@@ -12,24 +12,22 @@ const creatTodos=('/',async(req,res)=>{
 
     const getAllTodos =('/',async(req,res)=>{
         const alltodos=await Todos.find().lean()
-        if (!alltodos?.length) {
-            return res.status(400).json({message: 'No todos found'})
-        }
         res.json(alltodos)
     })
 
     const updateTodos= ('/',async (req, res) => {
        
-        const {_idid,title,tags,completed}= req.body
-        if(!_id){
+        const {id,title,tags}= req.body
+        if(!id){
             return res.status(400).json({messege:'insert _id'})}
-        const todo = await Todos.findById(_id).exec()
+        const todo = await Todos.findById(id).exec()
         if (!todo) {
         return res.status(400).json({ message: 'todo not found' })
         }
-        todo.title=title
-        todo.tags=tags
-        todo.completed=completed
+        if(title)
+            todo.title=title
+        if(tags)
+            todo.tags=tags
         const saveTodo = await todo.save()
         res.json(saveTodo)
         })
@@ -42,11 +40,23 @@ const creatTodos=('/',async(req,res)=>{
             if (!todo) {
             return res.status(400).json({ message: 'todo not found' })
             }
-            const result = await Todos.deleteOne()
+            const result = await Todos.deleteOne(todo)
             res.json('delited!')
             })
+        
+            const updateComplete = async (req, res) => {
+                const { id } = req.params
+                const todo = await Todos.findById(id).exec()
+                if (!todo) {
+                return res.status(400).json({ message: 'Todo not found' })
+                }
+                todo.completed = !todo.completed
+                const updatedTodo = await todo.save()
+                res.json(`'${updatedTodo.completed}' updated`)
+            }
 
             module.exports = {
+                updateComplete,
                 creatTodos,
                 getAllTodos,
                 updateTodos,
